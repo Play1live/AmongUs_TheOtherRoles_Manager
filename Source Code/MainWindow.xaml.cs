@@ -26,7 +26,7 @@ namespace AmongUsTheOtherRolesManager
 
         //Config Inhalte
         public static string[] vars = new string[5];
-        public static string managerVersion = "6";
+        public static string managerVersion = "7";
         public static string managerUpdaterPath = @"C:\Users\Public\Documents\AmongUs_TheOtherRolesMod_Manager\Updater.exe";
         public static string modVersion = "Nicht gefunden";
         public static string modSpeicherpfad = @"Nicht gefunden";
@@ -36,6 +36,7 @@ namespace AmongUsTheOtherRolesManager
         public static string managerVersionOnline = "Nicht geladen";
 
         public static List<string> logList = new List<string>();
+
 
         public MainWindow()
         {
@@ -163,19 +164,21 @@ namespace AmongUsTheOtherRolesManager
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-
             ModVersionUtil.deleteOldFiles();
-
             ModVersionUtil mversion = new ModVersionUtil();
             saveOnlineVersion(mversion.loadOnlineVersion());
-            addLog(modVersionOnline + " ist die aktuellste Version.");
 
-            log.Items.Add("Mod wird heruntergeladen.");
+            /*if (modVersionOnline.Equals(modVersion))
+            {
+                log.Items.Add(modVersionOnline + " ist die aktuellste Version.");
+                return;
+            }*/
+
             mversion.checkForDownload();
+
             aktualisiereAnzeigen();
             btnAktivate();
             log.Items.Add("Mod wurde heruntergeladen.");
-
         }
 
         private void btnNewPath_Click(object sender, RoutedEventArgs e)

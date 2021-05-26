@@ -52,20 +52,27 @@ namespace AmongUsTheOtherRolesManager
 
         public void checkForDownload()
         {
-            if (MainWindow.modVersion != MainWindow.modVersionOnline+"1")
+            if (MainWindow.modVersion != MainWindow.modVersionOnline)
+            {
+                MainWindow.addLog("Datei wird heruntergeladen.");
+                download();
+            }
+            // Force
+            else
             {
                 MainWindow.addLog("Datei wird heruntergeladen.");
                 download();
             }
         }
 
-        private void download()
+        public void download()
         {
             try
             {
                 WebClient client = new WebClient();
                 client.DownloadFile(new Uri("https://github.com/Eisbison/TheOtherRoles/releases/download/" + MainWindow.modVersionOnline + "/TheOtherRoles.zip"), MainWindow.modSpeicherpfad + @"\Mod.zip");
                 client.Dispose();
+                
                 MainWindow.addLog("Datei wurde heruntergeladen.");
             } catch
             {
@@ -73,6 +80,7 @@ namespace AmongUsTheOtherRolesManager
                 return;
             }
 
+            
             zipEntpacken();
             DirectoryCopy(MainWindow.modSpeicherpfad+@"\ZIP", MainWindow.modSpeicherpfad, true);
             DeleteFilesAndFoldersRecursively(MainWindow.modSpeicherpfad + @"\ZIP");
