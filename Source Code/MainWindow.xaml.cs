@@ -26,7 +26,7 @@ namespace AmongUsTheOtherRolesManager
 
         //Config Inhalte
         public static string[] vars = new string[5];
-        public static string managerVersion = "7";
+        public static string managerVersion = "8";
         public static string managerUpdaterPath = @"C:\Users\Public\Documents\AmongUs_TheOtherRolesMod_Manager\Updater.exe";
         public static string modVersion = "Nicht gefunden";
         public static string modSpeicherpfad = @"Nicht gefunden";
@@ -83,6 +83,7 @@ namespace AmongUsTheOtherRolesManager
             {
                 btnStartGame.IsEnabled = false;
                 btnUpdate.IsEnabled = false;
+                btnModSteamUpdate.IsEnabled = false;
                 btnNewPath.IsEnabled = true;
                 return;
             }
@@ -91,6 +92,7 @@ namespace AmongUsTheOtherRolesManager
             {
                 btnStartGame.IsEnabled = false;
                 btnUpdate.IsEnabled = true;
+                btnModSteamUpdate.IsEnabled = true;
                 btnNewPath.IsEnabled = true;
                 return;
             }
@@ -99,6 +101,7 @@ namespace AmongUsTheOtherRolesManager
             {
                 btnStartGame.IsEnabled = true;
                 btnUpdate.IsEnabled = true;
+                btnModSteamUpdate.IsEnabled = true;
                 btnNewPath.IsEnabled = true;
                 return;
             }
@@ -120,7 +123,13 @@ namespace AmongUsTheOtherRolesManager
                 catch
                 {
                     log.Items.Add("Der Updater konnte nicht heruntergeladen werden.");
+                    log.Items.Add("Stelle sicher, dass eine Internetverbindung verfügbar ist.");
                 }
+            }
+            else
+            {
+                updater.Delete();
+                installUpdater();
             }
         }
 
@@ -192,6 +201,22 @@ namespace AmongUsTheOtherRolesManager
 
             log.Items.Add("Der Speicherpfad wurde aktualisiert.");
             btnUpdate.IsEnabled = true;
+        }
+
+        private void btnModSteamUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            ModVersionUtil mversion = new ModVersionUtil();
+            saveOnlineVersion(mversion.loadOnlineVersion());
+
+            Directory.Delete(modSpeicherpfad, true);
+            mversion.cloneSteamVersion();
+            mversion.downloadModfinder();
+
+            mversion.checkForDownload();
+
+            aktualisiereAnzeigen();
+            btnAktivate();
+            log.Items.Add("Mod wurde heruntergeladen.");
         }
     }
 }

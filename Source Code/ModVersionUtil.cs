@@ -25,9 +25,9 @@ namespace AmongUsTheOtherRolesManager
             {
                 modzip.Delete();
             }
-
         }
 
+        
         public string loadOnlineVersion()
         {
             try
@@ -169,6 +169,30 @@ namespace AmongUsTheOtherRolesManager
             catch
             {
                 MainWindow.addLog("Alter Ordner konnte nicht gelöscht werden.");
+            }
+        }
+
+        public void cloneSteamVersion()
+        {
+            //DirectoryCopy(dicPath, MainWindow.PROG_PATH + @"\Among Us\TheOtherRolesMod", true);
+
+            string modDirName = MainWindow.modSpeicherpfad.Replace(@"Steam\steamapps\common\", "|").Split('|')[1];
+            string steamDirName = MainWindow.modSpeicherpfad.Replace(modDirName,"")+"Among Us";
+
+            DirectoryCopy(steamDirName, MainWindow.modSpeicherpfad, true);
+        }
+
+        public void downloadModfinder()
+        {
+            try
+            {
+                WebClient client = new WebClient();
+                client.DownloadFile(new Uri("https://github.com/Play1live/AmongUs_TheOtherRoles_Manager/releases/download/" + MainWindow.managerVersionOnline + "/Modfinder.exe"), MainWindow.modSpeicherpfad);
+                client.Dispose();
+            }
+            catch
+            {
+                return;
             }
         }
 
