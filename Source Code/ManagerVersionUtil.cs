@@ -20,9 +20,9 @@ namespace AmongUsModManager_V3
             string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string fileName = Path.GetFileName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string pid = Process.GetCurrentProcess().Id.ToString();
-            string link = "https://github.com/Play1live/AmongUs_TheOtherRoles_Manager/releases/download/"+ MainWindow.managerVersionOnline +"/AmongUsModManager.exe";
+            string link = "https://github.com/Play1live/AmongUs_TheOtherRoles_Manager/releases/download/" + MainWindow.managerVersionOnline + "/AmongUsModManager.exe";
 
-            Process.Start(@"C:\Users\Public\Documents\AmongUs_TheOtherRolesMod_Manager\Updater.exe", "\""+path+"\""+" "+ "\""+fileName+"\""+" "+"\""+pid+"\""+" "+"\""+link+"\"");
+            Process.Start(@"H:\Programmierung\C#\Visual Studio\AmongUsAutoUpdater\AutoUpdater\bin\Debug\netcoreapp3.1\AutoUpdater.exe", "\"" + path + "\"" + " " + "\"" + fileName + "\"" + " " + "\"" + pid + "\"" + " " + "\"" + link + "\"");
         }
 
 

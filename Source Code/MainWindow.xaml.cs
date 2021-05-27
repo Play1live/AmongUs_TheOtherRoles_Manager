@@ -24,9 +24,12 @@ namespace AmongUsTheOtherRolesManager
     {
         public static string configPath = @"C:\Users\Public\Documents\AmongUs_TheOtherRolesMod_Manager\Config.txt";
 
+        public static string forceUpdateUpdaterVersion = "10";
+
         //Config Inhalte
         public static string[] vars = new string[5];
-        public static string managerVersion = "8";
+        public static string managerVersion = "10";
+        public static string managerVersionConf = "Nicht gefunden";
         public static string managerUpdaterPath = @"C:\Users\Public\Documents\AmongUs_TheOtherRolesMod_Manager\Updater.exe";
         public static string modVersion = "Nicht gefunden";
         public static string modSpeicherpfad = @"Nicht gefunden";
@@ -65,14 +68,26 @@ namespace AmongUsTheOtherRolesManager
             // Log wird aktualisiert.
             aktualisiereLog();
 
-
             // Autoupdater
-            int mOnline = Convert.ToInt32(managerVersionOnline);
-            int mlocal= Convert.ToInt32(managerVersion);
-            if (mOnline > mlocal)
+            try
             {
+                int mOnline = Convert.ToInt32(managerVersionOnline);
+                int mlocal = Convert.ToInt32(managerVersion);
+
+                if (mOnline > mlocal)
+                {
+                    log.Items.Add("Stelle sicher, dass eine Internetverbindung hergestellt ist.");
+                    ManagerVersionUtil.startAutoUpdate();
+                }
+            } 
+            catch
+            {
+                btnStartGame.IsEnabled = true;
+                btnUpdate.IsEnabled = false;
+                btnModSteamUpdate.IsEnabled = false;
+                btnNewPath.IsEnabled = true;
+                log.Items.Add("Du kannst aktuell kein Update installieren.");
                 log.Items.Add("Stelle sicher, dass eine Internetverbindung hergestellt ist.");
-                ManagerVersionUtil.startAutoUpdate();
             }
         }
 
@@ -110,13 +125,31 @@ namespace AmongUsTheOtherRolesManager
         public void installUpdater()
         {
             FileInfo updater = new FileInfo(managerUpdaterPath);
-            if (!updater.Exists)
+            int fuuv = 0;
+            int fvc = 0;
+            try
             {
+                fuuv = Int32.Parse(forceUpdateUpdaterVersion);
+                fvc = Int32.Parse(managerVersionConf);
+            }
+            catch
+            {
+                log.Items.Add("Der Updater konnte nicht installiert werden.");
+            }
+
+            if (!updater.Exists || fuuv > fvc)
+            {
+                if (updater.Exists)
+                {
+                    updater.Delete();
+                }
                 try
                 {
                     using (WebClient wc = new WebClient())
                     {
                         wc.DownloadFile("https://github.com/Play1live/AmongUs_TheOtherRoles_Manager/releases/download/" + managerVersionOnline + "/AutoUpdater.exe", managerUpdaterPath);
+                        ConfigUtil c = new ConfigUtil();
+                        c.saveConfig();
                         log.Items.Add("Der Updater wurde installiert.");
                     }
                 }
@@ -125,11 +158,6 @@ namespace AmongUsTheOtherRolesManager
                     log.Items.Add("Der Updater konnte nicht heruntergeladen werden.");
                     log.Items.Add("Stelle sicher, dass eine Internetverbindung verfügbar ist.");
                 }
-            }
-            else
-            {
-                updater.Delete();
-                installUpdater();
             }
         }
 
@@ -154,6 +182,7 @@ namespace AmongUsTheOtherRolesManager
 
         public void saveToConfig(string[] temp)
         {
+            managerVersionConf = temp[0];
             modVersion = temp[2];
             modSpeicherpfad = temp[3];
             modDateiEXE = temp[4];
@@ -177,11 +206,6 @@ namespace AmongUsTheOtherRolesManager
             ModVersionUtil mversion = new ModVersionUtil();
             saveOnlineVersion(mversion.loadOnlineVersion());
 
-            /*if (modVersionOnline.Equals(modVersion))
-            {
-                log.Items.Add(modVersionOnline + " ist die aktuellste Version.");
-                return;
-            }*/
 
             mversion.checkForDownload();
 
