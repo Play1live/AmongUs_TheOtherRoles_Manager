@@ -3,10 +3,10 @@
 The **AmongUs TheOtherRoles Manager**, is a manager software for [TheOtherRoles](https://github.com/Eisbison/TheOtherRoles) which adds new roles, settings and hats to [Among Us](https://store.steampowered.com/app/945360/Among_Us).
 
 # Releases
-| Manager - Version v10 | Download |
+| Manager - Version v11 | Download |
 |----------|-------------|
-| Paket.zip | [Link](https://github.com/Play1live/AmongUs_TheOtherRoles_Manager/releases/download/10/Paket.zip) |
-| AmongUsModManager.exe | [Link](https://github.com/Play1live/AmongUs_TheOtherRoles_Manager/releases/download/10/AmongUsModManager.exe) |
+| Paket.zip | [Link](https://github.com/Play1live/AmongUs_TheOtherRoles_Manager/releases/download/11/Paket.zip) |
+| AmongUsModManager.exe | [Link](https://github.com/Play1live/AmongUs_TheOtherRoles_Manager/releases/download/11/AmongUsModManager.exe) |
 
 # Installation
 1. Download and unzip the newest Paket.zip. (Link above)
